@@ -4,7 +4,6 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from pathlib import Path
 from typing import Annotated
-from hash import pwd_context
 import os
 from dotenv import load_dotenv
 
