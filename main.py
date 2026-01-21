@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Annotated
 import os
 from dotenv import load_dotenv
+from services.network_management import get_network_info 
 
 
 load_dotenv()
@@ -58,4 +59,12 @@ app.mount(
     name = "front"
 )
 
+
+@app.get("/api/network/{option}")
+
+async def network_api(option: str, user: Annotated[str, Depends(read_current_user)]):
+
+        data = get_network_info(option)
+
+        return {"status": "success", "output": data}
 
