@@ -50,3 +50,13 @@ def read_current_user(credentials: Annotated[HTTPBasicCredentials, Depends(secur
 
 
 
+app.mount(
+    "/front",
+    StaticFiles(
+        directory=Path(__file__).resolve().parent / "front",
+        html = True
+    ),
+    name = "front"
+)
+
+

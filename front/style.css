@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Goldman:wght@400;700&display=swap');
+
+:root {
+    --bg-color: #0f172a;
+    --card-bg: #1e293b;
+    --accent-blue: #38bdf8;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --text: #f8fafc;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text);
+    margin: 0;
+    padding: 20px;
+}
+
+h1,
+h2 {
+    text-align: center;
+    font-weight: 300;
+}
+
+/* Sekcja INFO */
+.info-container {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    margin-bottom: 25px;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #334155;
+}
+
+.info-item span:first-child {
+    color: var(--accent-blue);
+    font-weight: bold;
+}
+
+/* Sekcja MANAGE */
+.manage-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.btn {
+    padding: 20px 10px;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.btn:active {
+    transform: scale(0.95);
+}
+
+.btn-restart {
+    background-color: var(--warning);
+}
+
+.btn-shutdown {
+    background-color: var(--danger);
+}
+
+.btn-logout {
+    background-color: #64748b;
+}
+
+.btn-update {
+    background-color: var(--accent-blue);
+}
+
+.icon {
+    font-size: 24px;
+}
+
+.network_analize {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 25px;
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}

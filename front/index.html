@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+
+    <h2>💻 System Status</h2>
+
+    <div class="info-container">
+        <div class="info-item">
+            <span>Nazwa PC:</span>
+            <span id="pc-name" class="data-field">Ładowanie...</span>
+        </div>
+        <div class="info-item">
+            <span>System:</span>
+            <span id="pc-os" class="data-field">Ładowanie...</span>
+        </div>
+        <div class="info-item">
+            <span>User:</span>
+            <span id="pc-user" class="data-field">Ładowanie...</span>
+        </div>
+        <div class="info-item">
+            <span>IP:</span>
+            <span id="pc-ip" class="data-field">Ładowanie...</span>
+        </div>
+        <div class="info-item">
+            <span>Data:</span>
+            <span id="pc-date" class="data-field">Ładowanie...</span>
+        </div>
+    </div>
+
+    <h2>🛠 Manage PC</h2>
+
+    <div class="manage-grid">
+        <button class="btn btn-restart">
+            <span class="icon">🔄</span> Restart
+        </button>
+        <button class="btn btn-shutdown">
+            <span class="icon">🛑</span> Wyłącz
+        </button>
+        <button class="btn btn-logout">
+            <span class="icon">👤</span> Wyloguj
+        </button>
+        <button class="btn btn-update">
+            <span class="icon">✨</span> Odśwież
+        </button>
+        <button class="btn btn-backup" style="background-color: var(--accent-blue);">
+            <span class="icon">💾</span> Kopia
+        </button>
+    </div>
+
+
+
+    <div class="network_analize">
+
+
+        <textarea id="output" rows="50" cols="120"></textarea>
+    </div>
+
+    <!-- <script src="script.js"></script> -->
+
+</body>
+
+</html>
