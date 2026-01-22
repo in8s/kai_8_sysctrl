@@ -7,6 +7,7 @@ from typing import Annotated
 import os
 from dotenv import load_dotenv
 from services.network_management import get_network_info 
+import bcrypt
 
 
 load_dotenv()
@@ -19,6 +20,8 @@ app = FastAPI()
 
 #tworzymy zmienna security ktora jest nasza instancja klasy HTTPBasic, ten obiekt bedzie wyciagal login i haslo z naglowkow zapytania http
 security = HTTPBasic()
+
+
 
 
 #Tworzymy funkcje odpowiezialna za autoryzacje
@@ -34,7 +37,7 @@ def read_current_user(credentials: Annotated[HTTPBasicCredentials, Depends(secur
 
         )
 
-    if credentials.password != os.getenv("ADMIN_PASSWORD"):
+    if not bcrypt.checkpw(credentials.password.encode(), os.getenv("ADMIN_PASSWORD").encode()):
 
         raise HTTPException(
 
@@ -60,11 +63,11 @@ app.mount(
 )
 
 
-@app.get("/api/network/{option}")
+@app.get("/api/network/")
+def network_api(
+    option: str = Query(..., description = "A - ipconfig, B - getmac, C - nslookup"),
+    host: str | None = Query(None, description = "Needed for nslookup option!"), 
+    username: str = Depends(read_current_user)):
 
-async def network_api(option: str, user: Annotated[str, Depends(read_current_user)]):
-
-        data = get_network_info(option)
-
-        return {"status": "success", "output": data}
+        return get_network_info(option, host)
 
