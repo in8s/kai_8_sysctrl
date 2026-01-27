@@ -8,6 +8,7 @@ import os
 from dotenv import load_dotenv
 from services.network_management import get_network_info 
 from services.system_management import get_system_info
+from services.network_scanner import scan_network
 import bcrypt
 
 
@@ -75,5 +76,10 @@ def network_api(
 
 
 @app.get("/api/system/")
-def system_api():
+def system_api(username: str = Depends(read_current_user)):
     return get_system_info()
+
+
+@app.get('/api/scan-network')
+def scan_api_network(username: str = Depends(read_current_user)):
+    return scan_network()
