@@ -2,7 +2,7 @@ import socket
 import platform
 from fastapi import HTTPException
 from getmac import get_mac_address as gma
-from urllib.request import urlopen
+import httpx
 import re as r
 import psutil
 
@@ -13,7 +13,7 @@ import psutil
 
 
 
-def get_system_info():
+async def get_system_info():
 
     main_sys_info = {
         'Hostname':'unknown',
@@ -24,11 +24,13 @@ def get_system_info():
     }
 
     try:
+        async with httpx.AsyncClient() as client:
+            response = await client.get('http://checkip.dyndns.com/')
+            data = response.text
         main_sys_info['Hostname'] = platform.node() or 'hostname unavailable'
         main_sys_info['OS Name'] = platform.system()
         main_sys_info['IP Local'] = socket.gethostbyname(socket.gethostname())
         main_sys_info['MAC Address'] = gma()
-        data = str(urlopen('http://checkip.dyndns.com/').read())
         ip = r.compile(r'Address: (\d+\.\d+\.\d+\.\d+)').search(data).group(1)
         main_sys_info['IP Public'] = ip
         
@@ -40,5 +42,6 @@ def get_system_info():
 
 
 def get_system_stats():
+
     pass
 
