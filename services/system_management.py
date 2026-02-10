@@ -24,7 +24,7 @@ async def get_system_info():
     }
 
     try:
-        async with httpx.AsyncCient() as client:
+        async with httpx.AsyncClient() as client:
             response = await client.get('http://checkip.dyndns.com/')
             data = response.text
         main_sys_info['Hostname'] = platform.node() or 'hostname unavailable'
