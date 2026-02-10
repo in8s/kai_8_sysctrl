@@ -1,57 +1,47 @@
 import socket
 import platform
-import os
-import datetime
 from fastapi import HTTPException
-import datetime
+from getmac import get_mac_address as gma
+import httpx
+import re as r
+import psutil
+
+#to do: 
+# 1. hostname, os, c_library, Ipv4, macaddress, public ip
+# 2. Oddzielna funkcja, zuzycie procesora, zucycie ramu, ile czasu trwa ekran, do tego wykresy 
+#3. 
 
 
 
+async def get_system_info():
 
-
-def get_system_info():
+    main_sys_info = {
+        'Hostname':'unknown',
+        'OS Name': 'unknown',
+        'IP Local':'unknown',
+        'IP Public': 'unknown',
+        'MAC Address': 'unknown'
+    }
 
     try:
-
-        #hostname 
-        hostname = platform.node()
-
-        #OS
-        os_name = f"{platform.system()} {platform.release()}"
-
-        try:
-            user = os.getlogin()
-        except:
-            user = 'unknown'
-
+        async with httpx.AsyncClient() as client:
+            response = await client.get('http://checkip.dyndns.com/')
+            data = response.text
+        main_sys_info['Hostname'] = platform.node() or 'hostname unavailable'
+        main_sys_info['OS Name'] = platform.system()
+        main_sys_info['IP Local'] = socket.gethostbyname(socket.gethostname())
+        main_sys_info['MAC Address'] = gma()
+        ip = r.compile(r'Address: (\d+\.\d+\.\d+\.\d+)').search(data).group(1)
+        main_sys_info['IP Public'] = ip
         
-        #ip address
-
-        ip = '192.168.0.1'
-
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-
-        try:    
-            s.connect((ip, 22))
-
-            ip = s.getsockname()[0]
-        except Exception:
-            ip = 'unknown'
-        finally:
-            s.close()
-
-        #DATE
-
-        date = datetime.datetime.now().strftime("%d.%m.%Y")
-        
-        return {
-            "pc_name": hostname,
-            "os_name": os_name,
-            "user": user,
-            "ip": ip,
-            "date": date
-        }
-    except Exception as e:
+    except PermissionError:
+        raise HTTPException(status = 404, details = 'You dont have permissions...')
     
-        raise HTTPException(status_code=500, detail = 'Nie dziala')
+
+    return main_sys_info
+
+
+def get_system_stats():
+
+    pass
 

@@ -2,3 +2,6 @@
 .env
 __pycache__
 encrypt.py
+linux_checker.py
+front/todo.txt
+testng.py

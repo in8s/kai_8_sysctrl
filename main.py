@@ -76,8 +76,9 @@ def network_api(
 
 
 @app.get("/api/system/")
-def system_api(username: str = Depends(read_current_user)):
-    return get_system_info()
+async def system_api(username: str = Depends(read_current_user)):
+    data = await get_system_info()
+    return data
 
 
 @app.get('/api/scan-network')
