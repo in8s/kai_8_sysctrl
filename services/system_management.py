@@ -37,3 +37,8 @@ def get_system_info():
     
 
     return main_sys_info
+
+
+def get_system_stats():
+    pass
+
