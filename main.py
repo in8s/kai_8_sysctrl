@@ -1,24 +1,47 @@
+#FROM imports
 from fastapi import FastAPI, Query, HTTPException, status, Depends, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from pathlib import Path
 from typing import Annotated
-import os
 from dotenv import load_dotenv
+from contextlib import asynccontextmanager
+#INTERNAL imports
+from services.system_stats import monitor_stats, get_latest_stats
 from services.network_management import get_network_info 
 from services.system_management import get_system_info
 from services.network_scanner import scan_network
+#JUST imports :))
 import bcrypt
+import os
+import asyncio
+
 
 
 load_dotenv()
 
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+
+    asyncio.create_task(monitor_stats())
+     
+    print('Serwer startuje...')
+
+
+    yield
+
+
+    print('Serwer gasnie...')
+
+
+
+
 
 
 #tworzymy zmienna app ktora jest nasza instancja klasy FastAPI
-app = FastAPI()
+app = FastAPI(lifespan=lifespan)
 
 #tworzymy zmienna security ktora jest nasza instancja klasy HTTPBasic, ten obiekt bedzie wyciagal login i haslo z naglowkow zapytania http
 security = HTTPBasic()
@@ -84,3 +107,7 @@ async def system_api(username: str = Depends(read_current_user)):
 @app.get('/api/scan-network')
 def scan_api_network(username: str = Depends(read_current_user)):
     return scan_network()
+
+@app.get('/api/system-stats/')
+def get_stats_api(username: str = Depends(read_current_user)):
+     return get_latest_stats()
