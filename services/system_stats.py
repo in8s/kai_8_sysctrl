@@ -2,7 +2,7 @@ import psutil
 from fastapi import HTTPException
 import asyncio
 
-latest_stats = ()
+latest_stats = {}
 
 def check_system_stats():
 
@@ -22,8 +22,16 @@ def check_system_stats():
     return info
 
 
-async def monitor_system():
-    while True:
 
-        latest_stats = check_system_stats()
-        await asyncio.sleep(1)
+async def monitor_stats(): 
+
+    global latest_stats     
+
+    while True: 
+        try:
+
+            latest_stats = check_system_stats()
+            await asyncio.sleep(2)
+        except Exception as e:
+            print(f"blad moitoringu {e}")
+            await asyncio.sleep(5)
